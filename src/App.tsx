@@ -1,24 +1,29 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
+import ConsoleTab from './components/ConsoleTab'
+import MindNodeTab from './components/MindNodeTab'
+import { GraphManager } from './graph'
+
+const gm = new GraphManager()
+
+let messageSeq = 1
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App container-fluid">
+      <div className="row">
+        <div className="col-8">
+          <MindNodeTab />
+        </div>
+        <div className="col-4">
+          <ConsoleTab doExec={cmd => {
+            const [info, res] = gm.Exec(cmd)
+            messageSeq += 1
+            return [messageSeq, res, info]
+          }} />
+        </div>
+      </div>
     </div>
   );
 }
